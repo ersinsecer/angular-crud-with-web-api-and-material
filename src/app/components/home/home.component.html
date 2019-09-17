@@ -1,0 +1,30 @@
+<div class="card-footer">  
+    <div class="col-lg-12 table-responsive">  
+        <button mat-raised-button  (click)="onCreate()">
+            <mat-icon>add</mat-icon>Yeni
+        </button>
+        <table class="table table-striped">  
+            <thead>  
+                <tr>  
+                    <th>Id</th>  
+                    <th>ÜRÜN ADI</th>  
+                    <th>AÇIKLAMA</th>  
+                    <th>FİYAT</th>  
+                    <th>İŞLEMLER</th>  
+                </tr>  
+            </thead>  
+            <tbody>  
+                <tr *ngFor="let product of products">
+                    <td>{{product.id}}</td>  
+                    <td>{{product.name}}</td>  
+                    <td>{{product.description}}</td>  
+                    <td>{{product.price}}</td>  
+                    <td>  
+                        <button type="button" class="btn btn-primary mr-1">Düzenle</button>  
+                        <button type="button" class="btn btn-danger mr-1" >Sil</button>  
+                    </td>  
+                </tr>  
+            </tbody>  
+        </table>  
+    </div>  
+</div>   
