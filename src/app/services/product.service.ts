@@ -1,18 +1,18 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpHeaderResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../models/product';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import * as _ from 'lodash';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ProductService {
 
   constructor(
     @Inject('apiUrl') private apiUrl,  // module.ts provider daki apiUrl tanımlıyoruz.
-
     private http: HttpClient) { }
+
+    productList: Observable<Product[]>;
 
     categories = [
       { id:1, value: "Kategori 1"},
@@ -21,7 +21,7 @@ export class ProductService {
     ];
     
   form: FormGroup = new FormGroup({
-      $key: new FormControl(null),
+      id: new FormControl(''),
       name: new FormControl('', Validators.required),
       //mail: new FormControl('', Validators.email),
       //mobile: new FormControl('', [Validators.required, Validators.minLength(8)]),
@@ -32,32 +32,37 @@ export class ProductService {
 
   initializeFormGroup() {
     this.form.setValue({
-      $key: null,
+      id: 0,
       name: '',
       description: '',
       price: '',
-      category: ''
+      category: 0
     });
   }
 
-
-  getAllProducts()
+  getAllProducts(): Observable<Product[]> 
   {
     return this.http.get<Product[]>(this.apiUrl + '/products');
   }
-  
-  addProduct(obj)
-  {
-    return this.http.post(this.apiUrl + '/products', obj);
+    
+  // POST
+  addProduct(data): Observable<Product> {
+    return this.http.post<Product>(this.apiUrl + '/products/', data);
   }
 
-  updateProduct(obj)
+  updateProduct(obj): Observable<Product>
   {
-    return this.http.put(this.apiUrl + '/products', obj);
+    debugger;
+    return this.http.put<Product>(this.apiUrl + '/products', obj);
   }
 
   deleteProduct(id)
   {
     return this.http.delete(this.apiUrl + '/products', id);
   }
+
+  populateForm(employee) {
+    this.form.patchValue(_.omit(employee,'categoryId'));
+  }
+
 }

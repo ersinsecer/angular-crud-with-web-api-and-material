@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { ReactiveFormsModule,FormsModule } from "@angular/forms";
 
@@ -31,11 +31,12 @@ import { ProductService } from './services/product.service';
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule           
   ],
   providers: [ProductService, HomeComponent,
     { provide: 'apiUrl', useValue: 'https://localhost:44348/api'}
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { MatDialogRef } from '@angular/material';
 import { NgForm } from '@angular/forms';
-import { Product } from 'src/app/models/product';
-import { HomeComponent } from '../home/home.component';
-
+import { Router } from '@angular/router';
+import { EventEmitterService } from 'src/app/services/event-emitter.service';
 
 @Component({
   selector: 'app-add-product',
@@ -13,41 +12,48 @@ import { HomeComponent } from '../home/home.component';
 })
 export class AddProductComponent implements OnInit {
 
-  //products: [Product];
-  constructor(private productService: ProductService, private homeComponent: HomeComponent,
-    public dialogRef: MatDialogRef<AddProductComponent>) { }
 
-  ngOnInit() {
-    this.refreshData();
+
+  constructor(private productService: ProductService, 
+    public dialogRef: MatDialogRef<AddProductComponent>, 
+    private route:Router,
+    private eventEmitterService : EventEmitterService) {     
   }
 
-  private refreshData() {
-    this.productService.getAllProducts().subscribe(res => {
-      this.homeComponent.products = res['products'];
-      console.log(this.homeComponent.products);
-    });
+  ngOnInit() {
+    this.RefreshData();
+  }
+
+  private RefreshData() {
+    this.productService.getAllProducts();
   }
 
   onSubmit(form: NgForm) {
-    if (form.value.Id == null)
-      this.insertRecord(form);
-    // else
-    //   this.updateRecord(form);
+    if (!form.value.id)
+    {
+      this.productService.addProduct(this.productService.form.value).subscribe(res => {
+        this.eventEmitterService.onHomeComponentFunction();
+      });
+    }
+    else
+      this.productService.updateProduct(this.productService.form.value).subscribe(res => {
+        this.eventEmitterService.onHomeComponentFunction();
+      });    
+      this.onClose();
   }
   
-  insertRecord(form: NgForm) {
-    this.productService.addProduct(form.value).subscribe(res => {
-      // this.toastr.success('Inserted successfully', 'EMP. Register');
-      // this.resetForm(form);
-      this.refreshData();
-      this.onClose();
-    });
-  }
+  // insertRecord(form: NgForm) {
+  //   this.productService.addProduct(form.value).subscribe(res => {
+  //     // this.toastr.success('Inserted successfully', 'EMP. Register');
+  //     // this.resetForm(form); 
+  //     this.eventEmitterService.onHomeComponentFunction();
+  //     this.onClose();
+  //   });
+  // }
   
   onClear() {
     this.productService.form.reset();
-    this.productService.initializeFormGroup();
-    
+    this.productService.initializeFormGroup();    
   }
 
   onClose() {
@@ -55,5 +61,5 @@ export class AddProductComponent implements OnInit {
     this.productService.initializeFormGroup();
     this.dialogRef.close();
   }
-
+  
 }

@@ -1,15 +1,15 @@
 <mat-toolbar>
-    <span>{{productService.form.controls['$key'].value?"Ürün Düzenleme":"Yeni Ürün"}}</span>
+    <span>{{ productService.form.controls['id'].value?"Ürün Düzenleme":"Yeni Ürün" }}</span>
     <span class="fill-remaining-space"></span>
     <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1">
         <mat-icon>clear</mat-icon>
     </button>
   </mat-toolbar>
 <form [formGroup]="productService.form" class="normal-form" #form="ngForm" (submit)="onSubmit(form)">
-    <mat-grid-list cols="1" rowHeight="300px">
+    <mat-grid-list cols="1" rowHeight="308px">
         <mat-grid-tile>
             <div class="controles-container">
-                <input type="hidden" formControlName="$key">
+                <input type="hidden" formControlName="id">
                 <mat-form-field>
                     <input formControlName="name" matInput placeholder="Ürün Adı">
                     <mat-error>Zorunlu alandır.</mat-error>
@@ -24,7 +24,7 @@
                         <mat-select formControlName="category" placeholder="Kategori">
                             <mat-option>Seç</mat-option>
                             <ng-container *ngFor="let category of productService.categories">
-                                <mat-option value="{{category.id}}">{{category.value}}</mat-option>
+                                <mat-option value="{{category.$key}}">{{category.value}}</mat-option>
                             </ng-container>
                         </mat-select>
                     </mat-form-field>
