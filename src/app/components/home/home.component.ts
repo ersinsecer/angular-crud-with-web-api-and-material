@@ -13,7 +13,8 @@ import 'hammerjs';
 })
 export class HomeComponent implements OnInit {  
 
-  constructor(private productService: ProductService, private dialog: MatDialog, private eventEmitterService: EventEmitterService) { }
+  constructor(private productService: ProductService, private dialog: MatDialog, 
+    private eventEmitterService: EventEmitterService) { }
 
   displayedColumns: string[] = ['id', 'name', 'description', 'price', 'actions'];
   dataSource : MatTableDataSource<any>;
@@ -58,6 +59,14 @@ export class HomeComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.width = "60%";
     this.dialog.open(AddProductComponent,dialogConfig);
+  }
+
+  onDelete(id){
+    if(confirm('Kayıt silinecek!')){
+    this.productService.deleteProduct(id).subscribe(res =>{
+      this.eventEmitterService.onHomeComponentFunction();
+    });
+    }
   }
 }
 

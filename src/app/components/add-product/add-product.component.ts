@@ -41,16 +41,7 @@ export class AddProductComponent implements OnInit {
       });    
       this.onClose();
   }
-  
-  // insertRecord(form: NgForm) {
-  //   this.productService.addProduct(form.value).subscribe(res => {
-  //     // this.toastr.success('Inserted successfully', 'EMP. Register');
-  //     // this.resetForm(form); 
-  //     this.eventEmitterService.onHomeComponentFunction();
-  //     this.onClose();
-  //   });
-  // }
-  
+    
   onClear() {
     this.productService.form.reset();
     this.productService.initializeFormGroup();    

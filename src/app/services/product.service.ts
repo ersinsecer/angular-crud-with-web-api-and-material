@@ -52,13 +52,12 @@ export class ProductService {
 
   updateProduct(obj): Observable<Product>
   {
-    debugger;
     return this.http.put<Product>(this.apiUrl + '/products', obj);
   }
 
   deleteProduct(id)
   {
-    return this.http.delete(this.apiUrl + '/products', id);
+    return this.http.delete(this.apiUrl + '/products/'+ id);
   }
 
   populateForm(employee) {
