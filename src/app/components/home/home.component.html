@@ -33,7 +33,7 @@
     <mat-icon>add</mat-icon>Yeni Ekle
   </button>
   <mat-form-field class="search-form-field" floatLabel="never">
-    <input matInput [(ngModel)]="searchKey"  placeholder="Arama yapmak için birşeyler yazın..." autocomplete="off" (keyup)="onSearch()">
+    <input matInput [(ngModel)]="searchKey" placeholder="Arama yapmak için birşeyler yazın..." autocomplete="off" (keyup)="onSearch()">
     <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey"  (click)="onSearchClear()">
       <mat-icon>close</mat-icon>
     </button>
