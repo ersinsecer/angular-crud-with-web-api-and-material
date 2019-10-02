@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'description', 'price', 'actions'];
   dataSource : MatTableDataSource<any>;
   
-  
+  searchKey: string;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   //@ViewChild(MatSort) sort: MatSort;
   
@@ -67,6 +67,15 @@ export class HomeComponent implements OnInit {
       this.eventEmitterService.onHomeComponentFunction();
     });
     }
+  }
+
+  onSearch(){
+    this.dataSource.filter = this.searchKey.trim().toLowerCase();
+  }
+
+  onSearchClear() {
+    this.searchKey = "";
+    this.onSearch();
   }
 }
 
